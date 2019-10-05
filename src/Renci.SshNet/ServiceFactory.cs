@@ -114,11 +114,8 @@ namespace Renci.SshNet
         {
             const int defaultMaxPendingReads = 3;
 
-            // Issue #292: Avoid overlapping SSH_FXP_OPEN and SSH_FXP_LSTAT requests for the same file as this
-            // causes a performance degradation on Sun SSH
-            var openAsyncResult = sftpSession.BeginOpen(fileName, Flags.Read, null, null);
-            var handle = sftpSession.EndOpen(openAsyncResult);
-
+            // Issue #592: Cisco IOS-XR's SFTP server closes open file handles when LStat is called.
+            // Call SSH2_FXP_LSTAT before SSH2_FXP_OPEN.
             var statAsyncResult = sftpSession.BeginLStat(fileName, null, null);
 
             long? fileSize;
@@ -141,6 +138,11 @@ namespace Renci.SshNet
 
                 DiagnosticAbstraction.Log(string.Format("Failed to obtain size of file. Allowing maximum {0} pending reads: {1}", maxPendingReads, ex));
             }
+
+            // Issue #292: Avoid overlapping SSH_FXP_OPEN and SSH_FXP_LSTAT requests for the same file as this
+            // causes a performance degradation on Sun SSH
+            var openAsyncResult = sftpSession.BeginOpen(fileName, Flags.Read, null, null);
+            var handle = sftpSession.EndOpen(openAsyncResult);
 
             return sftpSession.CreateFileReader(handle, sftpSession, chunkSize, maxPendingReads, fileSize);
         }
