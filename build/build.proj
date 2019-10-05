@@ -9,6 +9,7 @@
 		<MSBuildTasksPackageVersion>1.5.0.214</MSBuildTasksPackageVersion>
 	</PropertyGroup>
 	<ItemGroup>
+  <!--
 		<VisualStudioVersion Include="2012">
 			<SolutionFile>$(MSBuildThisFileDirectory)..\src\Renci.SshNet.VS2012.sln</SolutionFile>
 			<ToolsVersion>14.0</ToolsVersion>
@@ -23,6 +24,11 @@
 			<SolutionFile>$(MSBuildThisFileDirectory)..\src\Renci.SshNet.VS2017.sln</SolutionFile>
 			<ToolsVersion>15.0</ToolsVersion>
 			<VisualStudioVersion>15.0</VisualStudioVersion>
+      -->
+		<VisualStudioVersion Include="2019">
+			<SolutionFile>$(MSBuildThisFileDirectory)..\src\Renci.SshNet.VS2017.sln</SolutionFile>
+			<ToolsVersion>16.0</ToolsVersion>
+			<VisualStudioVersion>16.0</VisualStudioVersion>
 		</VisualStudioVersion>
 	</ItemGroup>
 	<ItemGroup>
@@ -42,6 +48,7 @@
 			<OutputDirectory>Renci.SshNet.NETCore\bin\$(Configuration)\netstandard2.0</OutputDirectory>
 			<Moniker>netstandard2.0</Moniker>
 		</TargetFramework>
+    <!--
 		<TargetFramework Include="Windows Phone Silverlight 7.1">
 			<OutputDirectory>Renci.SshNet.WindowsPhone\bin\$(Configuration)</OutputDirectory>
 			<Moniker>wp71</Moniker>
@@ -62,6 +69,7 @@
 			<OutputDirectory>Renci.SshNet.UAP10\bin\$(Configuration)</OutputDirectory>
 			<Moniker>uap10</Moniker>
 		</TargetFramework>
+    -->
 	</ItemGroup>
 	<Target Name="Clean" DependsOnTargets="CleanSolution">
 		<RemoveDir Directories="$(MSBuildThisFileDirectory)target"/>
@@ -74,7 +82,7 @@
 				<Properties>Configuration=Release;VisualStudioVersion=%(VisualStudioVersion.VisualStudioVersion)</Properties>
 			</ProjectToBuild>
 		</ItemGroup>
-		<MSBuild Projects="@(ProjectToBuild)" ToolsVersion="%(VisualStudioVersion.ToolsVersion)" Targets="Clean"/>
+		<MSBuild Projects="@(ProjectToBuild)" Targets="Clean"/>
 	</Target>
 	<Target Name="DownloadNuGet">
 		<MakeDir Directories="$(MSBuildThisFileDirectory)target\nuget"/>
@@ -93,7 +101,7 @@
 				<Properties>Configuration=Release;VisualStudioVersion=%(VisualStudioVersion.VisualStudioVersion)</Properties>
 			</ProjectToBuild>
 		</ItemGroup>
-		<MSBuild Projects="@(ProjectToBuild)" ToolsVersion="%(VisualStudioVersion.ToolsVersion)" Targets="Rebuild"/>
+		<MSBuild Projects="@(ProjectToBuild)" Targets="Rebuild"/>
 	</Target>
 	<Target Name="Package" DependsOnTargets="CreateNuGetPackage;CreateBinPackage;GenerateHelpFile"/>
 	<Target Name="CreateNuGetPackage" DependsOnTargets="CopyBuildOutputToPackage">

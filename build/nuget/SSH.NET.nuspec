@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>SSH.NET</id>
-        <version>2017.0.0-beta1</version>
+        <id>SSH.NET.SftpNoncanonical</id>
+        <version>2017.0.0-sterlind</version>
         <title>SSH.NET</title>
         <authors>Renci</authors>
         <owners>olegkap,drieseng</owners>

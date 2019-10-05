@@ -299,6 +299,7 @@ namespace Renci.SshNet.Sftp
                         // if the offset of the read-ahead chunk is greater than that file size, then
                         // we can expect to be reading the last (zero-byte) chunk and switch to synchronous
                         // mode to avoid having multiple read-aheads that read beyond EOF
+                        /*
                         if (_fileSize != null && (long) _readAheadOffset > _fileSize.Value)
                         {
                             var asyncResult = _sftpSession.BeginRead(_handle, _readAheadOffset, _chunkSize, null,
@@ -308,8 +309,11 @@ namespace Renci.SshNet.Sftp
                         }
                         else
                         {
-                            _sftpSession.BeginRead(_handle, _readAheadOffset, _chunkSize, ReadCompleted, bufferedRead);
-                        }
+                        */
+                            var asyncResult = _sftpSession.BeginRead(_handle, _readAheadOffset, _chunkSize, null /*ReadCompleted*/, bufferedRead);
+                            var data = _sftpSession.EndRead(asyncResult);
+                            ReadCompletedCore(bufferedRead, data);
+                        //}
                     }
                     catch (Exception ex)
                     {
