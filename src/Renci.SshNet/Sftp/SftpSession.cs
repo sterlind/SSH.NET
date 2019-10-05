@@ -42,6 +42,14 @@ namespace Renci.SshNet.Sftp
         /// </value>
         public uint ProtocolVersion { get; private set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to transform absolute paths.
+        /// </summary>
+        /// <value>
+        /// True if we should not transform paths, false (default) otherwise.
+        /// </value>
+        public bool DoNotTransformAbsolutePaths { get; set; }
+
         private long _requestId;
 
         /// <summary>
@@ -90,6 +98,11 @@ namespace Renci.SshNet.Sftp
         /// </returns>
         public string GetCanonicalPath(string path)
         {
+            if (this.DoNotTransformAbsolutePaths && !string.IsNullOrEmpty(path) && path.StartsWith("/"))
+            {
+                return path;
+            }
+
             var fullPath = GetFullRemotePath(path);
 
             var canonizedPath = string.Empty;
