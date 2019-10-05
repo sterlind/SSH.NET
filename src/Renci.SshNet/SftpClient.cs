@@ -37,6 +37,11 @@ namespace Renci.SshNet
         private uint _bufferSize;
 
         /// <summary>
+        /// Indicates whether we should or should not transform absolute paths.
+        /// </summary>
+        private bool _doNotTransformAbsolutePaths;
+
+        /// <summary>
         /// Gets or sets the operation timeout.
         /// </summary>
         /// <value>
@@ -139,6 +144,32 @@ namespace Renci.SshNet
                 if (_sftpSession == null)
                     throw new SshConnectionException("Client not connected.");
                 return (int) _sftpSession.ProtocolVersion;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to transform absolute paths.
+        /// </summary>
+        /// <exception cref="ObjectDisposedException">The method was called after the client was disposed.</exception>
+        public bool DoNotTransformAbsolutePaths
+        {
+            get
+            {
+                CheckDisposed();
+                return _doNotTransformAbsolutePaths;
+            }
+
+            set
+            {
+                CheckDisposed();
+                if (_sftpSession == null)
+                {
+                    _doNotTransformAbsolutePaths = value;
+                }
+                else
+                {
+                    _doNotTransformAbsolutePaths = _sftpSession.DoNotTransformAbsolutePaths = value;
+                }
             }
         }
 
@@ -2210,6 +2241,7 @@ namespace Renci.SshNet
                                                                ServiceFactory.CreateSftpResponseFactory());
             try
             {
+                sftpSession.DoNotTransformAbsolutePaths = _doNotTransformAbsolutePaths;
                 sftpSession.Connect();
                 return sftpSession;
             }

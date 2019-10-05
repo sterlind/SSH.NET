@@ -24,6 +24,14 @@ namespace Renci.SshNet.Sftp
         string WorkingDirectory { get; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to transform absolute paths.
+        /// </summary>
+        /// <value>
+        /// True if we should not transform paths, false (default) otherwise.
+        /// </value>
+        bool DoNotTransformAbsolutePaths { get; set; }
+
+        /// <summary>
         /// Changes the current working directory to the specified path.
         /// </summary>
         /// <param name="path">The new working directory.</param>
