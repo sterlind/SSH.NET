@@ -74,7 +74,7 @@ namespace Renci.SshNet
                 channel.Open();
 
                 // start recursive upload
-                if (!channel.SendExecRequest(string.Format("scp -rt {0}", _remotePathTransformation.Transform(path))))
+                if (!channel.SendExecRequest(string.Format("scp -r -t {0}", _remotePathTransformation.Transform(path))))
                 {
                     throw SecureExecutionRequestRejectedException();
                 }
