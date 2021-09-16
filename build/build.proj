@@ -129,9 +129,9 @@
 		<MSBuild Projects="@(ProjectToBuild)" ToolsVersion="%(VisualStudioVersionModern.ToolsVersion)" Targets="Rebuild"/>
 	</Target>
 	
-	<Target Name="Package" DependsOnTargets="CreateNuGetPackage;CreateBinPackage;GenerateHelpFile"/>
+	<Target Name="Package" DependsOnTargets="CreateNuGetPackage;CreateBinPackage"/>
 	
-	<Target Name="ValidatePackage" DependsOnTargets="ValidatePackageClassic;ValidatePackageModern"/>
+	<Target Name="ValidatePackage" DependsOnTargets="ValidatePackageModern"/>
 	
 	<Target Name="ValidatePackageClassic" DependsOnTargets="CheckNuGetPackageDirectory" Outputs="%(TargetFrameworkClassic.Identity)">
 		<Error Text="The 'Renci.SshNet.dll' file is not available for %(TargetFrameworkClassic.Identity) in $(NuGetPackageDirectory)\lib\%(TargetFrameworkClassic.Moniker)." Condition="!Exists('$(NuGetPackageDirectory)\lib\%(TargetFrameworkClassic.Moniker)\Renci.SshNet.dll')"/>
